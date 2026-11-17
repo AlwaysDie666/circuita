@@ -1,0 +1,8 @@
+C:\Users\ZIYAD AL WADDI\Documents\Craft Anything\circuita\app\target\debug\build\icu_normalizer/83f019b3bf36ccb7\out\icu_normalizer-83f019b3bf36ccb7.d: C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\icu_normalizer-2.4.0\src\lib.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\icu_normalizer-2.4.0\src\properties.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\icu_normalizer-2.4.0\src\provider.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\icu_normalizer-2.4.0\src\uts46.rs
+
+C:\Users\ZIYAD AL WADDI\Documents\Craft Anything\circuita\app\target\debug\build\icu_normalizer/83f019b3bf36ccb7\out\libicu_normalizer-83f019b3bf36ccb7.rmeta: C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\icu_normalizer-2.4.0\src\lib.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\icu_normalizer-2.4.0\src\properties.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\icu_normalizer-2.4.0\src\provider.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\icu_normalizer-2.4.0\src\uts46.rs
+
+C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\icu_normalizer-2.4.0\src\lib.rs:
+C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\icu_normalizer-2.4.0\src\properties.rs:
+C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\icu_normalizer-2.4.0\src\provider.rs:
+C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\icu_normalizer-2.4.0\src\uts46.rs:

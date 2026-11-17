@@ -1,0 +1,62 @@
+{
+  "revision": 4,
+  "brief": {
+    "question": "Rebuild a Proteus ISIS-style electronic circuit and schematic simulator as a native desktop app (Rust + eframe/egui) with a modern high-contrast matte-black dark UI and orange accents: interactive schematic canvas, component library sidebar with previews, smart orthogonal wiring, real-time simulation with animated current and logic flow, and floating virtual instruments.",
+    "purpose": "The person wants a modern replacement for Proteus Design Suite (ISIS) schematic capture and simulation, usable without coding knowledge.",
+    "targets": [],
+    "constraints": [
+      "Clean room: no original target exists to open.",
+      "Stack fixed by task instructions: Rust with eframe/egui, cargo project at app/Cargo.toml.",
+      "Only app/ may be written.",
+      "No dev servers or watchers; cargo build must succeed.",
+      "Support --screenshot <file.png>: draw ~120 frames, save PNG, unfocused and behind other windows on Windows."
+    ],
+    "done_when": "cargo build succeeds, screenshot PNG shows a complete schematic-editor UI, and rebuild_check reports no fixable differences."
+  },
+  "plan": [
+    {
+      "title": "Map the workspace and confirm toolchain (cargo, egui versions)",
+      "status": "done",
+      "why": "Toolchain confirmed: cargo 1.100, eframe 0.32.3 pinned."
+    },
+    {
+      "title": "Design the app structure: theme, state model, canvas, library, wiring, simulation, instruments",
+      "status": "done",
+      "why": "Module split in app/src: model, theme, symbols, routing, sim, canvas, panels, instruments, ui_kit."
+    },
+    {
+      "title": "Implement schematic canvas with dot grid, zoom/pan, snapping, select/move/rotate/mirror",
+      "status": "done",
+      "why": "Verified visually in the screenshot run: grid, pan/zoom pill, toolbar, selection, rotate/mirror/delete shortcuts in the status bar."
+    },
+    {
+      "title": "Implement component library sidebar with search, categories and symbol previews",
+      "status": "done",
+      "why": "Sidebar shows search, category chips and 18 parts with drawn symbol previews; verified in screenshot."
+    },
+    {
+      "title": "Implement smart orthogonal wiring with editable routes and pin snapping",
+      "status": "done",
+      "why": "Orthogonal routed wires with draggable segments; demo circuit draws 15 wires cleanly."
+    },
+    {
+      "title": "Implement simulation engine with play/pause/step/stop and animated red/blue flow",
+      "status": "done",
+      "why": "Transport bar (stop/pause/step), time and speed control; wires colored red HIGH / blue LOW / amber analog in the screenshot."
+    },
+    {
+      "title": "Implement floating virtual instruments (voltmeter, ammeter, logic probe, oscilloscope)",
+      "status": "done",
+      "why": "Voltmeter and oscilloscope open in floating windows by default; ammeter and logic probe toggle from the top bar."
+    },
+    {
+      "title": "Add --screenshot mode, build, verify PNG, run rebuild_check",
+      "status": "done",
+      "why": "--screenshot saves a 1920x1080 PNG (unfocused, always-on-bottom on Windows); rebuild_check: build passed, app-screenshot passed."
+    }
+  ],
+  "hypotheses": [],
+  "findings": [],
+  "handoff": "Circuita (app/, cargo bin \"circuita\", eframe/egui 0.32.3) is built and passing: cargo build succeeds; rebuild_check reports build passed and app-screenshot passed (1920x1080 PNG via --screenshot; window unfocused and AlwaysOnBottom on Windows).\n\nThis turn's fix: the oscilloscope floating window's default position covered the canvas zoom pill at the bottom-right (only a sliver showed). Raised its default in instruments.rs show() to rect.bottom()-14-396 and nudged x to rect.right()-14-390 so the window sits fully inside the canvas. Verified in a fresh screenshot: zoom pill fully visible, scope clear of it.\n\nKnown harmless quirks, not fixed: ~70 compiler warnings (mostly f32-literal fallback that cargo fix could apply; skipped because the workspace has no VCS to revert with); ground-net label numbering (GND4/GND5/GND6) can shift between runs if names come from hash-map order — cosmetic only.\n\nIf resumed: no open unknowns. Possible follow-ups to ask the person: save/load projects, editable component values, deeper MCU behaviour. Note the engine is a didactic DC/AC toy solver, not SPICE-accurate.",
+  "updated": "2026-11-17T20:58:29Z"
+}

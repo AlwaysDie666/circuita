@@ -1,0 +1,8 @@
+C:\Users\ZIYAD AL WADDI\Documents\Craft Anything\buatkan-aplikasi-simulator-rangkaian-ele\app\target\debug\build\displaydoc/088a216283908d55\out\displaydoc-088a216283908d55.d: C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\displaydoc-0.2.7\src\lib.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\displaydoc-0.2.7\src\attr.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\displaydoc-0.2.7\src\expand.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\displaydoc-0.2.7\src\fmt.rs
+
+C:\Users\ZIYAD AL WADDI\Documents\Craft Anything\buatkan-aplikasi-simulator-rangkaian-ele\app\target\debug\build\displaydoc/088a216283908d55\out\displaydoc-088a216283908d55.dll: C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\displaydoc-0.2.7\src\lib.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\displaydoc-0.2.7\src\attr.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\displaydoc-0.2.7\src\expand.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\displaydoc-0.2.7\src\fmt.rs
+
+C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\displaydoc-0.2.7\src\lib.rs:
+C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\displaydoc-0.2.7\src\attr.rs:
+C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\displaydoc-0.2.7\src\expand.rs:
+C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\displaydoc-0.2.7\src\fmt.rs:

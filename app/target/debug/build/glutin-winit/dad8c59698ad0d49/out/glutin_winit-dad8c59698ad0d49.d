@@ -1,0 +1,9 @@
+C:\Users\ZIYAD AL WADDI\Documents\Craft Anything\buatkan-aplikasi-simulator-rangkaian-ele\app\target\debug\build\glutin-winit/dad8c59698ad0d49\out\glutin_winit-dad8c59698ad0d49.d: C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\glutin-winit-0.5.0\src\lib.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\glutin-winit-0.5.0\src\event_loop.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\glutin-winit-0.5.0\src\window.rs
+
+C:\Users\ZIYAD AL WADDI\Documents\Craft Anything\buatkan-aplikasi-simulator-rangkaian-ele\app\target\debug\build\glutin-winit/dad8c59698ad0d49\out\libglutin_winit-dad8c59698ad0d49.rlib: C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\glutin-winit-0.5.0\src\lib.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\glutin-winit-0.5.0\src\event_loop.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\glutin-winit-0.5.0\src\window.rs
+
+C:\Users\ZIYAD AL WADDI\Documents\Craft Anything\buatkan-aplikasi-simulator-rangkaian-ele\app\target\debug\build\glutin-winit/dad8c59698ad0d49\out\libglutin_winit-dad8c59698ad0d49.rmeta: C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\glutin-winit-0.5.0\src\lib.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\glutin-winit-0.5.0\src\event_loop.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\glutin-winit-0.5.0\src\window.rs
+
+C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\glutin-winit-0.5.0\src\lib.rs:
+C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\glutin-winit-0.5.0\src\event_loop.rs:
+C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\glutin-winit-0.5.0\src\window.rs:

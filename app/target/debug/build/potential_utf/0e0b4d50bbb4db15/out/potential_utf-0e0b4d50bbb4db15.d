@@ -1,0 +1,9 @@
+C:\Users\ZIYAD AL WADDI\Documents\Craft Anything\buatkan-aplikasi-simulator-rangkaian-ele\app\target\debug\build\potential_utf/0e0b4d50bbb4db15\out\potential_utf-0e0b4d50bbb4db15.d: C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\potential_utf-0.1.6\src\lib.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\potential_utf-0.1.6\src\uchar.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\potential_utf-0.1.6\src\ustr.rs
+
+C:\Users\ZIYAD AL WADDI\Documents\Craft Anything\buatkan-aplikasi-simulator-rangkaian-ele\app\target\debug\build\potential_utf/0e0b4d50bbb4db15\out\libpotential_utf-0e0b4d50bbb4db15.rlib: C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\potential_utf-0.1.6\src\lib.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\potential_utf-0.1.6\src\uchar.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\potential_utf-0.1.6\src\ustr.rs
+
+C:\Users\ZIYAD AL WADDI\Documents\Craft Anything\buatkan-aplikasi-simulator-rangkaian-ele\app\target\debug\build\potential_utf/0e0b4d50bbb4db15\out\libpotential_utf-0e0b4d50bbb4db15.rmeta: C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\potential_utf-0.1.6\src\lib.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\potential_utf-0.1.6\src\uchar.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\potential_utf-0.1.6\src\ustr.rs
+
+C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\potential_utf-0.1.6\src\lib.rs:
+C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\potential_utf-0.1.6\src\uchar.rs:
+C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\potential_utf-0.1.6\src\ustr.rs:

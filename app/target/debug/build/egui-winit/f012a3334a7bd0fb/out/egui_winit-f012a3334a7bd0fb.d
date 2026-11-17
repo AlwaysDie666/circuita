@@ -1,0 +1,9 @@
+C:\Users\ZIYAD AL WADDI\Documents\Craft Anything\buatkan-aplikasi-simulator-rangkaian-ele\app\target\debug\build\egui-winit/f012a3334a7bd0fb\out\egui_winit-f012a3334a7bd0fb.d: C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\egui-winit-0.32.3\src\lib.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\egui-winit-0.32.3\src\clipboard.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\egui-winit-0.32.3\src\window_settings.rs
+
+C:\Users\ZIYAD AL WADDI\Documents\Craft Anything\buatkan-aplikasi-simulator-rangkaian-ele\app\target\debug\build\egui-winit/f012a3334a7bd0fb\out\libegui_winit-f012a3334a7bd0fb.rlib: C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\egui-winit-0.32.3\src\lib.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\egui-winit-0.32.3\src\clipboard.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\egui-winit-0.32.3\src\window_settings.rs
+
+C:\Users\ZIYAD AL WADDI\Documents\Craft Anything\buatkan-aplikasi-simulator-rangkaian-ele\app\target\debug\build\egui-winit/f012a3334a7bd0fb\out\libegui_winit-f012a3334a7bd0fb.rmeta: C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\egui-winit-0.32.3\src\lib.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\egui-winit-0.32.3\src\clipboard.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\egui-winit-0.32.3\src\window_settings.rs
+
+C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\egui-winit-0.32.3\src\lib.rs:
+C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\egui-winit-0.32.3\src\clipboard.rs:
+C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\egui-winit-0.32.3\src\window_settings.rs:

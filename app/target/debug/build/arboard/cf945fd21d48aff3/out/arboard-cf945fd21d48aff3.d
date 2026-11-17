@@ -1,0 +1,8 @@
+C:\Users\ZIYAD AL WADDI\Documents\Craft Anything\circuita\app\target\debug\build\arboard/cf945fd21d48aff3\out\arboard-cf945fd21d48aff3.d: C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arboard-3.7.0\src\lib.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arboard-3.7.0\src\common.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arboard-3.7.0\src\platform\mod.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arboard-3.7.0\src\platform\windows.rs
+
+C:\Users\ZIYAD AL WADDI\Documents\Craft Anything\circuita\app\target\debug\build\arboard/cf945fd21d48aff3\out\libarboard-cf945fd21d48aff3.rmeta: C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arboard-3.7.0\src\lib.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arboard-3.7.0\src\common.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arboard-3.7.0\src\platform\mod.rs C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arboard-3.7.0\src\platform\windows.rs
+
+C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arboard-3.7.0\src\lib.rs:
+C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arboard-3.7.0\src\common.rs:
+C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arboard-3.7.0\src\platform\mod.rs:
+C:\Users\ZIYAD\ AL\ WADDI\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\arboard-3.7.0\src\platform\windows.rs:
