@@ -1,9 +1,11 @@
 # Handoff
 
-Circuita (app/, cargo bin "circuita", eframe/egui 0.32.3) is built and passing: cargo build succeeds; rebuild_check reports build passed and app-screenshot passed (1920x1080 PNG via --screenshot; window unfocused and AlwaysOnBottom on Windows).
+Circuita (app/, cargo bin "circuita", eframe/egui 0.32.3) is built, tested and passing. cargo build exit 0, cargo test 2/2 pass, rebuild_check: build passed + app-screenshot passed (1920x1080).
 
-This turn's fix: the oscilloscope floating window's default position covered the canvas zoom pill at the bottom-right (only a sliver showed). Raised its default in instruments.rs show() to rect.bottom()-14-396 and nudged x to rect.right()-14-390 so the window sits fully inside the canvas. Verified in a fresh screenshot: zoom pill fully visible, scope clear of it.
+This turn: the workspace held an unfinished earlier change: main.rs declared `mod board;` and `mod importer;` but those source files never existed, and catalog.rs imported model::pin which was private. Removed the two orphan declarations (no other code referenced them; PCB/import features are not in the current request) and made model::pin public. Kept the dormant catalog.rs/footprint.rs/Placement data intact rather than deleting it.
 
-Known harmless quirks, not fixed: ~70 compiler warnings (mostly f32-literal fallback that cargo fix could apply; skipped because the workspace has no VCS to revert with); ground-net label numbering (GND4/GND5/GND6) can shift between runs if names come from hash-map order — cosmetic only.
+Screenshot verified with `target\debug\circuita.exe --screenshot shots/verify.png` (saved and opened): full matte-black UI, orange accents, dot-grid canvas, 18-part library with previews, demo circuit with red/blue/amber wires, voltmeter and oscilloscope windows, inspector, transport and status bar.
 
-If resumed: no open unknowns. Possible follow-ups to ask the person: save/load projects, editable component values, deeper MCU behaviour. Note the engine is a didactic DC/AC toy solver, not SPICE-accurate.
+Both stale unknowns were closed and verified: no PCB auto-place/auto-route in this app (not requested; only dormant data), and @wokwi/elements cannot be linked into Rust/egui (its Apache-2.0 pin tables are transcribed as Rust constants in catalog.rs).
+
+Known limits: simulation is a didactic DC/AC toy solver, not SPICE-accurate; MCU firmware is a fixed blink demo; ~85 compiler warnings (f32 literal fallbacks and unused dormant scaffolding) are harmless; ground-net label numbering can shift between runs. Do not launch circuita.exe without --screenshot in shell work (it blocks until killed). Next ideas to offer the person: PNG/PDF sheet export, editable MCU sketch, junction dots, multi-sheet projects.

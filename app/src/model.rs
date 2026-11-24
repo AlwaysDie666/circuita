@@ -50,7 +50,7 @@ pub struct PinSpec {
     pub role: PinRole,
 }
 
-const fn pin(name: &'static str, x: f32, y: f32, dir: Dir, role: PinRole) -> PinSpec {
+pub const fn pin(name: &'static str, x: f32, y: f32, dir: Dir, role: PinRole) -> PinSpec {
     PinSpec {
         name,
         at: (x, y),
@@ -111,6 +111,15 @@ pub enum Kind {
     UnoBoard,
     Atmega,
     Esp32,
+    NanoBoard,
+    Mpu6050,
+    Ina219,
+    Dht22,
+    Lcd1602,
+    PushButton,
+    /// A part imported from KiCad or an SVG library. Its pins and footprint
+    /// come from the catalog registry via `Component::part`.
+    Custom,
 }
 
 pub struct Spec {
@@ -349,12 +358,12 @@ impl Kind {
                 value_label: "Part",
             },
             Kind::UnoBoard => Spec {
-                name: "UNO board",
+                name: "Arduino Uno",
                 short: "UNO",
-                desc: "ATmega328 board, blinks D13 every second.",
+                desc: "ATmega328 board, blinks D13 every second. Wokwi pin layout.",
                 category: Category::Mcu,
                 pins: &UNO_PINS,
-                size: (220.0, 140.0),
+                size: (220.0, 150.0),
                 prefix: "MCU",
                 value: "Blink sketch",
                 value_label: "Firmware",
@@ -371,15 +380,92 @@ impl Kind {
                 value_label: "Firmware",
             },
             Kind::Esp32 => Spec {
-                name: "ESP32 module",
+                name: "ESP32 DevKit",
                 short: "ESP",
-                desc: "3.3V wireless module with a toggling IO pin.",
+                desc: "3.3V wireless module with a toggling IO pin. Wokwi pin layout.",
                 category: Category::Mcu,
                 pins: &ESP_PINS,
-                size: (96.0, 130.0),
+                size: (230.0, 260.0),
                 prefix: "U",
                 value: "Blink",
                 value_label: "Firmware",
+            },
+            Kind::NanoBoard => Spec {
+                name: "Arduino Nano",
+                short: "NANO",
+                desc: "Compact Arduino board with the Wokwi 30-pin layout.",
+                category: Category::Mcu,
+                pins: crate::catalog::NANO_PINS_WOKWI,
+                size: (300.0, 110.0),
+                prefix: "MCU",
+                value: "5V",
+                value_label: "Supply",
+            },
+            Kind::Mpu6050 => Spec {
+                name: "MPU6050",
+                short: "MPU",
+                desc: "3-axis motion sensor, 8 pins from the Wokwi element.",
+                category: Category::Mcu,
+                pins: crate::catalog::MPU_PINS_WOKWI,
+                size: (160.0, 90.0),
+                prefix: "U",
+                value: "I2C",
+                value_label: "Bus",
+            },
+            Kind::Ina219 => Spec {
+                name: "INA219",
+                short: "INA",
+                desc: "Current monitor with VCC, GND, SCL, SDA, IN+ and IN-.",
+                category: Category::Mcu,
+                pins: crate::catalog::INA_PINS,
+                size: (180.0, 90.0),
+                prefix: "U",
+                value: "I2C",
+                value_label: "Bus",
+            },
+            Kind::Dht22 => Spec {
+                name: "DHT22",
+                short: "DHT",
+                desc: "Temperature and humidity sensor, Wokwi pin order.",
+                category: Category::Mcu,
+                pins: crate::catalog::DHT_PINS_WOKWI,
+                size: (130.0, 140.0),
+                prefix: "U",
+                value: "DHT",
+                value_label: "Protocol",
+            },
+            Kind::Lcd1602 => Spec {
+                name: "LCD 1602 (I2C)",
+                short: "LCD",
+                desc: "16x2 character display with four I2C backpack pins.",
+                category: Category::Output,
+                pins: crate::catalog::LCD_PINS_WOKWI,
+                size: (280.0, 100.0),
+                prefix: "LCD",
+                value: "0x27",
+                value_label: "Address",
+            },
+            Kind::PushButton => Spec {
+                name: "Push button",
+                short: "SW",
+                desc: "Momentary tactile button. Click it to toggle.",
+                category: Category::Switch,
+                pins: crate::catalog::BUTTON_PINS_WOKWI,
+                size: (110.0, 90.0),
+                prefix: "SW",
+                value: "TACT",
+                value_label: "Type",
+            },
+            Kind::Custom => Spec {
+                name: "Imported part",
+                short: "IC",
+                desc: "Component imported from a KiCad or SVG library.",
+                category: Category::Passive,
+                pins: crate::catalog::INA_PINS,
+                size: (120.0, 90.0),
+                prefix: "U",
+                value: "",
+                value_label: "Value",
             },
         }
     }
@@ -405,8 +491,28 @@ impl Kind {
         Kind::Esp32,
     ];
 
+    /// Extra Wokwi-backed parts shown in the catalogue panel. They are kept
+    /// separate from ALL so the original built-in library order is untouched.
+    pub const EXTRA: [Kind; 6] = [
+        Kind::NanoBoard,
+        Kind::Mpu6050,
+        Kind::Ina219,
+        Kind::Dht22,
+        Kind::Lcd1602,
+        Kind::PushButton,
+    ];
+
     pub fn is_mcu(self) -> bool {
-        matches!(self, Kind::UnoBoard | Kind::Atmega | Kind::Esp32)
+        matches!(
+            self,
+            Kind::UnoBoard
+                | Kind::Atmega
+                | Kind::Esp32
+                | Kind::NanoBoard
+                | Kind::Mpu6050
+                | Kind::Ina219
+                | Kind::Dht22
+        )
     }
 }
 
@@ -422,6 +528,8 @@ pub struct Component {
     pub state: bool,
     pub pot: f32,
     pub freq: f32,
+    /// Catalog id for imported parts; built-in parts leave this empty.
+    pub part: Option<String>,
 }
 
 impl Component {
@@ -435,14 +543,30 @@ impl Component {
             mirror: false,
             label,
             value: spec.value.to_string(),
-            state: kind == Kind::SwitchSpst,
+            state: kind == Kind::SwitchSpst || kind == Kind::PushButton,
             pot: 0.5,
             freq: 500.0,
+            part: None,
         }
     }
 
     pub fn pins(&self) -> &'static [PinSpec] {
+        if let Some(id) = &self.part {
+            if let Some(pins) = crate::catalog::leaked_pins(id) {
+                return pins;
+            }
+        }
         self.kind.spec().pins
+    }
+
+    /// PCB footprint attached to this component, with real pad sizes and holes.
+    pub fn footprint(&self) -> crate::footprint::Footprint {
+        if let Some(id) = &self.part {
+            if let Some(part) = crate::catalog::get(id) {
+                return part.footprint;
+            }
+        }
+        crate::footprint::for_kind(self.kind)
     }
 
     /// Local offset after mirror and rotation, in world units.
@@ -478,7 +602,13 @@ impl Component {
     }
 
     pub fn size(&self) -> Vec2 {
-        let s = self.kind.spec().size;
+        let s = if let Some(id) = &self.part {
+            crate::catalog::get(id)
+                .map(|p| p.size)
+                .unwrap_or_else(|| self.kind.spec().size)
+        } else {
+            self.kind.spec().size
+        };
         if self.rot.rem_euclid(2) == 1 {
             vec2(s.1, s.0)
         } else {
@@ -491,11 +621,7 @@ impl Component {
     }
 
     pub fn term_count(&self) -> usize {
-        match self.kind {
-            Kind::Potentiometer => 3,
-            Kind::Vcc | Kind::Ground => 1,
-            _ => 2,
-        }
+        self.pins().len()
     }
 
     pub fn value_numeric(&self) -> f64 {
@@ -528,12 +654,25 @@ impl Wire {
     }
 }
 
+/// Where one component sits on the PCB. Millimetres, board origin at the
+/// top-left of the board outline.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct Placement {
+    pub comp: usize,
+    pub x: f32,
+    pub y: f32,
+    pub rot: i32,
+}
+
 #[derive(Clone, Default)]
 pub struct Project {
     pub comps: Vec<Component>,
     pub wires: Vec<Wire>,
     pub next_id: usize,
     pub name: String,
+    /// PCB placements, kept on the document so a saved project reopens with
+    /// the same board layout.
+    pub placements: Vec<Placement>,
 }
 
 impl Project {

@@ -91,6 +91,50 @@ pub fn top_bar(app: &mut App, ctx: &egui::Context) {
             }
             let _ = redo.on_hover_text("Redo  (Ctrl+Shift+Z)");
 
+            // Project save and open.
+            x += 40.0;
+            let save_r = Rect::from_center_size(pos2(x + 15.0, cy), Vec2::splat(30.0));
+            let save = ui.interact(save_r, ui.id().with("save"), Sense::click());
+            if save.hovered() {
+                p.rect_filled(save_r, egui::CornerRadius::same(8), ELEV_2);
+            }
+            ui_kit::paint_icon(
+                &p,
+                Rect::from_center_size(save_r.center(), Vec2::splat(17.0)),
+                Icon::Save,
+                if save.hovered() { TEXT } else { TEXT_FAINT },
+                1.0,
+            );
+            if save.clicked() {
+                app.save_project();
+            }
+            let _ = save.on_hover_text("Save project  (Ctrl+S)");
+            x += 36.0;
+            let open_r = Rect::from_center_size(pos2(x + 15.0, cy), Vec2::splat(30.0));
+            let open = ui.interact(open_r, ui.id().with("open"), Sense::click());
+            if app.projects_open {
+                p.rect_filled(open_r, egui::CornerRadius::same(8), theme::with_alpha(ACCENT, 0.14));
+            } else if open.hovered() {
+                p.rect_filled(open_r, egui::CornerRadius::same(8), ELEV_2);
+            }
+            ui_kit::paint_icon(
+                &p,
+                Rect::from_center_size(open_r.center(), Vec2::splat(17.0)),
+                Icon::Folder,
+                if app.projects_open {
+                    ACCENT_HI
+                } else if open.hovered() {
+                    TEXT
+                } else {
+                    TEXT_FAINT
+                },
+                1.0,
+            );
+            if open.clicked() {
+                app.open_projects();
+            }
+            let _ = open.on_hover_text("Saved projects  (Ctrl+O)");
+
             // Transport, centred.
             let tw = 300.0f32;
             let tr = Rect::from_center_size(
@@ -357,12 +401,13 @@ pub fn status_bar(app: &mut App, ctx: &egui::Context) {
             );
 
             // Keyboard hints, right aligned before the coordinates.
-            let hints: [(&str, &str); 5] = [
+            let hints: [(&str, &str); 6] = [
                 ("R", "rotate"),
                 ("M", "mirror"),
                 ("W", "wire"),
                 ("Del", "delete"),
                 ("Space", "run"),
+                ("Ctrl+S", "save"),
             ];
             let mut hx = rect.left() + 220.0;
             for (key, what) in hints {
@@ -1425,4 +1470,229 @@ fn row_value(ui: &mut Ui, label: &str, value: &str, color: Color32) {
             .font(mono(10.5))
             .color(color),
     );
+}
+
+/// Floating saved-projects manager: name the sheet, save it, open or delete a
+/// previously saved project. Lives next to the toolbar so it never covers the
+/// schematic.
+pub fn projects_window(app: &mut App, ctx: &egui::Context) {
+    if !app.projects_open {
+        app.delete_confirm = None;
+        return;
+    }
+    let rect = app.canvas_rect;
+    let default = pos2(rect.left() + 14.0, rect.top() + 14.0);
+    let mut p = app.projects_pos.unwrap_or(default);
+    let id = egui::Id::new("projects-panel");
+    let width = 288.0;
+
+    egui::Area::new(id)
+        .order(egui::Order::Foreground)
+        .fixed_pos(p)
+        .constrain(true)
+        .show(ctx, |ui| {
+            ui.set_width(width);
+            egui::Frame::new()
+                .fill(theme::PANEL_2)
+                .stroke(Stroke::new(1.0, BORDER))
+                .corner_radius(egui::CornerRadius::same(12))
+                .inner_margin(egui::Margin::same(12))
+                .shadow(egui::epaint::Shadow {
+                    offset: [0, 10],
+                    blur: 26,
+                    spread: 0,
+                    color: Color32::from_black_alpha(140),
+                })
+                .show(ui, |ui| {
+                    let header = ui.horizontal(|ui| {
+                        let (ir, _) = ui.allocate_exact_size(vec2(18.0, 18.0), Sense::hover());
+                        ui_kit::paint_icon(ui.painter(), ir, Icon::Folder, ACCENT, 1.0);
+                        ui.add_space(2.0);
+                        ui.label(
+                            egui::RichText::new("PROJECTS")
+                                .font(display(11.0))
+                                .color(TEXT),
+                        );
+                        ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
+                            let (r, resp) = ui.allocate_exact_size(vec2(20.0, 20.0), Sense::click());
+                            let col = if resp.hovered() { ACCENT } else { TEXT_FAINT };
+                            ui_kit::paint_icon(ui.painter(), r, Icon::Close, col, 0.8);
+                            if resp.clicked() {
+                                app.projects_open = false;
+                            }
+                        });
+                    });
+                    let hr = header.response.rect;
+                    let drag = ui.interact(
+                        Rect::from_min_max(pos2(hr.left(), hr.top() - 6.0), hr.right_bottom()),
+                        id.with("drag"),
+                        Sense::click_and_drag(),
+                    );
+                    if drag.dragged() {
+                        p += drag.drag_delta();
+                        app.projects_pos = Some(p);
+                    }
+                    ui.add_space(8.0);
+
+                    ui_kit::section_label(ui, "PROJECT NAME", None);
+                    let name_field = egui::TextEdit::singleline(&mut app.project_name_edit)
+                        .desired_width(f32::INFINITY)
+                        .font(mono(12.0));
+                    if ui.add(name_field).lost_focus() {
+                        app.project.name = app.project_name_edit.trim().to_string();
+                    }
+                    ui.add_space(8.0);
+
+                    let mut btn = egui::Button::new(
+                        egui::RichText::new("Save current sheet").font(medium(11.5)),
+                    )
+                    .fill(theme::with_alpha(ACCENT, 0.18))
+                    .stroke(Stroke::new(1.0, ACCENT));
+                    btn = btn.min_size(vec2(ui.available_width(), 30.0));
+                    if ui.add(btn).clicked() {
+                        app.save_project();
+                    }
+
+                    ui.add_space(12.0);
+                    ui_kit::section_label(
+                        ui,
+                        "SAVED",
+                        Some(&format!("{}", app.saved_list.len())),
+                    );
+                    if app.saved_list.is_empty() {
+                        ui.add_space(4.0);
+                        ui.label(
+                            egui::RichText::new(
+                                "Nothing saved yet. Name this sheet and press save.",
+                            )
+                            .font(body(10.0))
+                            .color(TEXT_FAINT),
+                        );
+                    }
+                    ui.add_space(4.0);
+                    egui::ScrollArea::vertical()
+                        .max_height(220.0)
+                        .show(ui, |ui| {
+                            for entry in app.saved_list.clone() {
+                                let row_id = ui.id().with(("saved", entry.file.clone()));
+                                let (row, resp) = ui.allocate_exact_size(
+                                    vec2(ui.available_width(), 40.0),
+                                    Sense::click(),
+                                );
+                                let confirm = app.delete_confirm.as_deref() == Some(entry.file.as_str());
+                                let hovered = resp.hovered();
+                                let fill = if confirm {
+                                    theme::with_alpha(HIGH, 0.10)
+                                } else if hovered {
+                                    ELEV_2
+                                } else {
+                                    Color32::TRANSPARENT
+                                };
+                                if fill.a() > 0 {
+                                    ui.painter().rect_filled(row, egui::CornerRadius::same(8), fill);
+                                }
+                                ui.painter().circle_filled(
+                                    pos2(row.left() + 10.0, row.center().y),
+                                    3.0,
+                                    if confirm { HIGH } else { ACCENT },
+                                );
+                                ui.painter().text(
+                                    pos2(row.left() + 22.0, row.center().y - 6.0),
+                                    Align2::LEFT_CENTER,
+                                    &entry.name,
+                                    FontId::new(11.0, egui::FontFamily::Name("medium".into())),
+                                    TEXT,
+                                );
+                                ui.painter().text(
+                                    pos2(row.left() + 22.0, row.center().y + 8.0),
+                                    Align2::LEFT_CENTER,
+                                    format!(
+                                        "{} comps · {} wires · {}",
+                                        entry.comps, entry.wires,
+                                        crate::project_io::fmt_time(entry.modified)
+                                    ),
+                                    FontId::new(8.5, egui::FontFamily::Proportional),
+                                    TEXT_FAINT,
+                                );
+                                let tr_rect = Rect::from_min_size(
+                                    pos2(row.right() - 26.0, row.center().y - 11.0),
+                                    vec2(22.0, 22.0),
+                                );
+                                let tr = ui.interact(tr_rect, row_id.with("trash"), Sense::click());
+                                let col = if confirm {
+                                    HIGH
+                                } else if tr.hovered() {
+                                    ACCENT
+                                } else {
+                                    TEXT_FAINT
+                                };
+                                ui_kit::paint_icon(ui.painter(), tr_rect, Icon::Trash, col, 0.9);
+                                if confirm {
+                                    // Overlay mini actions.
+                                    let del_rect = Rect::from_min_size(
+                                        pos2(tr_rect.left() - 52.0, row.center().y - 9.0),
+                                        vec2(50.0, 18.0),
+                                    );
+                                    let del = ui.interact(del_rect, row_id.with("del"), Sense::click());
+                                    ui.painter().rect_filled(
+                                        del_rect,
+                                        egui::CornerRadius::same(5),
+                                        theme::with_alpha(HIGH, 0.18),
+                                    );
+                                    ui.painter().text(
+                                        del_rect.center(),
+                                        Align2::CENTER_CENTER,
+                                        "Delete",
+                                        FontId::new(9.0, egui::FontFamily::Name("medium".into())),
+                                        HIGH,
+                                    );
+                                    if del.clicked() {
+                                        app.delete_saved(&entry.file);
+                                    }
+                                    let keep_rect = Rect::from_min_size(
+                                        pos2(tr_rect.left() - 108.0, row.center().y - 9.0),
+                                        vec2(54.0, 18.0),
+                                    );
+                                    let keep = ui.interact(keep_rect, row_id.with("keep"), Sense::click());
+                                    ui.painter().rect_stroke(
+                                        keep_rect,
+                                        egui::CornerRadius::same(5),
+                                        Stroke::new(1.0, BORDER),
+                                        StrokeKind::Inside,
+                                    );
+                                    ui.painter().text(
+                                        keep_rect.center(),
+                                        Align2::CENTER_CENTER,
+                                        "Keep",
+                                        FontId::new(9.0, egui::FontFamily::Name("medium".into())),
+                                        TEXT_DIM,
+                                    );
+                                    if keep.clicked() {
+                                        app.delete_confirm = None;
+                                    }
+                                } else if tr.clicked() {
+                                    app.delete_confirm = Some(entry.file.clone());
+                                }
+                                if resp.clicked() && !confirm && !tr.hovered() {
+                                    app.load_project(&entry.file);
+                                }
+                            }
+                        });
+
+                    ui.add_space(8.0);
+                    ui.separator();
+                    ui.add_space(4.0);
+                    ui.label(
+                        egui::RichText::new(format!(
+                            "Saved in: {}",
+                            crate::project_io::projects_dir().display()
+                        ))
+                        .font(body(8.5))
+                        .color(TEXT_FAINT),
+                    );
+                });
+        });
+    if app.projects_pos.is_none() {
+        app.projects_pos = Some(default);
+    }
 }

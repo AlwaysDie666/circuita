@@ -262,6 +262,13 @@ pub fn draw(painter: &Painter, comp: &Component, center: Pos2, zoom: f32, opts: 
         Kind::UnoBoard => draw_uno(&sym),
         Kind::Atmega => draw_atmega(&sym),
         Kind::Esp32 => draw_esp32(&sym),
+        Kind::NanoBoard => draw_nano(&sym),
+        Kind::Mpu6050 => draw_mpu(&sym),
+        Kind::Ina219 => draw_ina(&sym),
+        Kind::Dht22 => draw_dht(&sym),
+        Kind::Lcd1602 => draw_lcd(&sym),
+        Kind::PushButton => draw_button(&sym, comp.state),
+        Kind::Custom => draw_custom(&sym, comp),
     }
 
     draw_pins(painter, comp, center, zoom, opts);
@@ -740,43 +747,196 @@ fn draw_atmega(sym: &Sym) {
 }
 
 fn draw_esp32(sym: &Sym) {
-    sym.rect(-48.0, -65.0, 48.0, 65.0, Some(SYMBOL_FILL), 1.8);
-    sym.rect(-40.0, -56.0, 40.0, 52.0, Some(Color32::from_rgb(0x1d, 0x22, 0x20)), 1.2);
+    sym.rect(-115.0, -130.0, 115.0, 130.0, Some(SYMBOL_FILL), 1.8);
+    sym.rect(-104.0, -118.0, 104.0, 118.0, Some(Color32::from_rgb(0x1d, 0x22, 0x20)), 1.2);
     // Antenna trace.
     sym.poly(
         &[
-            (-26.0, -58.0),
-            (-26.0, -70.0),
-            (26.0, -70.0),
-            (26.0, -60.0),
+            (-58.0, -118.0),
+            (-58.0, -134.0),
+            (58.0, -134.0),
+            (58.0, -118.0),
         ],
         1.6,
     );
     sym.text(
         0.0,
-        -26.0,
+        -80.0,
         "ESP32",
         Align2::CENTER_CENTER,
-        FontId::new(12.0, egui::FontFamily::Name("bold".into())),
+        FontId::new(16.0, egui::FontFamily::Name("bold".into())),
+        ACCENT,
+    );
+    sym.text(
+        0.0,
+        -60.0,
+        "DEVKIT v1",
+        Align2::CENTER_CENTER,
+        FontId::new(9.0, egui::FontFamily::Monospace),
+        TEXT_DIM,
+    );
+    sym.rect(-60.0, -30.0, 60.0, 70.0, Some(Color32::from_rgb(0x16, 0x1a, 0x18)), 1.2);
+    sym.text(
+        0.0,
+        18.0,
+        "Wi-Fi + BLE",
+        Align2::CENTER_CENTER,
+        FontId::new(8.0, egui::FontFamily::Monospace),
+        TEXT_FAINT,
+    );
+    // Header rails matching the Wokwi pin rows.
+    sym.rect(-115.0, -76.0, -101.0, 190.0, Some(Color32::from_rgb(0x22, 0x27, 0x23)), 1.0);
+    sym.rect(101.0, -76.0, 115.0, 190.0, Some(Color32::from_rgb(0x22, 0x27, 0x23)), 1.0);
+}
+
+fn draw_nano(sym: &Sym) {
+    sym.rect(-150.0, -55.0, 150.0, 55.0, Some(Color32::from_rgb(0x16, 0x1b, 0x18)), 1.8);
+    sym.rect(-148.0, -48.0, 148.0, -34.0, Some(Color32::from_rgb(0x22, 0x27, 0x23)), 1.0);
+    sym.rect(-148.0, 34.0, 148.0, 48.0, Some(Color32::from_rgb(0x22, 0x27, 0x23)), 1.0);
+    for i in 0..15 {
+        let x = -132.0 + i as f32 * 18.0;
+        sym.rect(x, -46.0, x + 8.0, -36.0, Some(Color32::from_rgb(0x3a, 0x3f, 0x39)), 0.0);
+        sym.rect(x, 36.0, x + 8.0, 46.0, Some(Color32::from_rgb(0x3a, 0x3f, 0x39)), 0.0);
+    }
+    sym.text(
+        -140.0,
+        0.0,
+        "NANO",
+        Align2::LEFT_CENTER,
+        FontId::new(18.0, egui::FontFamily::Name("bold".into())),
+        ACCENT,
+    );
+    sym.text(
+        -140.0,
+        18.0,
+        "ATmega328P",
+        Align2::LEFT_CENTER,
+        FontId::new(8.0, egui::FontFamily::Monospace),
+        TEXT_FAINT,
+    );
+}
+
+fn draw_mpu(sym: &Sym) {
+    sym.rect(-80.0, -46.0, 80.0, 46.0, Some(SYMBOL_FILL), 1.8);
+    sym.rect(-60.0, -34.0, 60.0, 34.0, Some(Color32::from_rgb(0x18, 0x1d, 0x1a)), 1.2);
+    sym.circle_c(0.0, 0.0, 14.0, Color32::from_rgb(0x20, 0x26, 0x22), 1.2, BORDER_HI);
+    sym.line((-8.0, 0.0), (8.0, 0.0), 1.2);
+    sym.line((0.0, -8.0), (0.0, 8.0), 1.2);
+    sym.text(
+        0.0,
+        -22.0,
+        "MPU6050",
+        Align2::CENTER_CENTER,
+        FontId::new(11.0, egui::FontFamily::Name("bold".into())),
         TEXT_DIM,
     );
     sym.text(
         0.0,
-        -12.0,
-        "WROOM",
+        30.0,
+        "I2C 0x68",
+        Align2::CENTER_CENTER,
+        FontId::new(8.0, egui::FontFamily::Monospace),
+        TEXT_FAINT,
+    );
+}
+
+fn draw_ina(sym: &Sym) {
+    sym.rect(-90.0, -44.0, 90.0, 44.0, Some(SYMBOL_FILL), 1.8);
+    sym.rect(-30.0, -30.0, 30.0, 30.0, Some(Color32::from_rgb(0x1c, 0x21, 0x1e)), 1.2);
+    sym.text(
+        0.0,
+        -6.0,
+        "INA219",
+        Align2::CENTER_CENTER,
+        FontId::new(12.0, egui::FontFamily::Name("bold".into())),
+        ACCENT,
+    );
+    sym.text(
+        0.0,
+        12.0,
+        "V/I MONITOR",
         Align2::CENTER_CENTER,
         FontId::new(7.0, egui::FontFamily::Monospace),
         TEXT_FAINT,
     );
-    for i in 0..5 {
-        let y = 0.0 + i as f32 * 10.0;
-        sym.line((-34.0, y), (-20.0, y), 1.0);
-        sym.circle_c(-17.0, y, 1.6, BORDER_HI, 0.6, BORDER_HI);
+}
+
+fn draw_dht(sym: &Sym) {
+    sym.rect(-60.0, -70.0, 60.0, 70.0, Some(Color32::from_rgb(0x1a, 0x1e, 0x1c)), 1.8);
+    sym.rect(-44.0, -44.0, 44.0, 26.0, Some(Color32::from_rgb(0x24, 0x28, 0x25)), 1.2);
+    for i in 0..4 {
+        let y = -34.0 + i as f32 * 14.0;
+        sym.line((-30.0, y), (30.0, y), 0.8);
     }
-    sym.line((-76.0, -34.0), (-48.0, -34.0), 1.7);
-    sym.line((-76.0, 34.0), (-48.0, 34.0), 1.7);
-    sym.line((76.0, -34.0), (48.0, -34.0), 1.7);
-    sym.line((76.0, 34.0), (48.0, 34.0), 1.7);
+    sym.text(
+        0.0,
+        46.0,
+        "DHT22",
+        Align2::CENTER_CENTER,
+        FontId::new(12.0, egui::FontFamily::Name("bold".into())),
+        ACCENT,
+    );
+}
+
+fn draw_lcd(sym: &Sym) {
+    sym.rect(-140.0, -50.0, 140.0, 50.0, Some(Color32::from_rgb(0x12, 0x17, 0x15)), 1.8);
+    sym.rect(-124.0, -36.0, 124.0, 32.0, Some(Color32::from_rgb(0x1d, 0x26, 0x21)), 1.2);
+    for i in 0..2 {
+        let y = -18.0 + i as f32 * 26.0;
+        sym.text(
+            -112.0,
+            y,
+            "8888888888888888",
+            Align2::LEFT_CENTER,
+            FontId::new(11.0, egui::FontFamily::Monospace),
+            Color32::from_rgb(0x39, 0x66, 0x4b),
+        );
+    }
+    sym.text(
+        130.0,
+        40.0,
+        "LCD 1602",
+        Align2::RIGHT_CENTER,
+        FontId::new(9.0, egui::FontFamily::Monospace),
+        TEXT_FAINT,
+    );
+}
+
+fn draw_button(sym: &Sym, pressed: bool) {
+    sym.rect(-50.0, -40.0, 50.0, 40.0, Some(SYMBOL_FILL), 1.8);
+    sym.circle_c(0.0, 0.0, 18.0, Color32::from_rgb(0x25, 0x2a, 0x26), 1.4, BORDER_HI);
+    if !pressed {
+        sym.circle_c(0.0, -3.0, 13.0, Color32::from_rgb(0x33, 0x39, 0x34), 1.0, BORDER_HI);
+    }
+    sym.line((-50.0, -40.0), (-50.0, -56.0), 1.5);
+    sym.line((50.0, -40.0), (50.0, -56.0), 1.5);
+    sym.line((-50.0, 40.0), (-50.0, 56.0), 1.5);
+    sym.line((50.0, 40.0), (50.0, 56.0), 1.5);
+}
+
+fn draw_custom(sym: &Sym, comp: &Component) {
+    let size = comp.size();
+    let hx = size.x / 2.0;
+    let hy = size.y / 2.0;
+    sym.rect(-hx, -hy, hx, hy, Some(SYMBOL_FILL), 1.8);
+    let title = comp.label.chars().take(14).collect::<String>();
+    sym.text(
+        0.0,
+        -6.0,
+        &title,
+        Align2::CENTER_CENTER,
+        FontId::new(10.0, egui::FontFamily::Name("bold".into())),
+        ACCENT,
+    );
+    let value = comp.value.chars().take(16).collect::<String>();
+    sym.text(
+        0.0,
+        10.0,
+        &value,
+        Align2::CENTER_CENTER,
+        FontId::new(8.0, egui::FontFamily::Monospace),
+        TEXT_FAINT,
+    );
 }
 
 /// Level colour used by the canvas, instruments and the legend.

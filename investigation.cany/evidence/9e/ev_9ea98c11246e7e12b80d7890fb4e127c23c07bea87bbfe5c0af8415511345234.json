@@ -1,0 +1,53 @@
+{
+  "id": "ev_9ea98c11246e7e12b80d7890fb4e127c23c07bea87bbfe5c0af8415511345234",
+  "subject": {
+    "kind": "text",
+    "sha256": "666c819c5b532bd2f4dd48dd9e5fef8e3524b0701c0bf507ef162801714f2ba3",
+    "name": "Cargo.toml"
+  },
+  "operation": "core_text_read",
+  "params": {
+    "limit": 30,
+    "offset": 1,
+    "path": "C:\\Users\\ZIYAD AL WADDI\\Documents\\Craft Anything\\circuita\\app\\Cargo.toml"
+  },
+  "result": {
+    "cut_lines": [],
+    "encoding": "utf8",
+    "file_size": 459,
+    "lines": 20,
+    "more": false,
+    "offset": 1,
+    "path": "C:\\Users\\ZIYAD AL WADDI\\Documents\\Craft Anything\\circuita\\app\\Cargo.toml",
+    "replaced_sequences": 0,
+    "text": "name = \"circuita\"\nversion = \"0.1.0\"\nedition = \"2021\"\ndescription = \"Circuita — a modern schematic capture and circuit simulation studio\"\n\n[dependencies]\neframe = { version = \"0.32.3\", default-features = false, features = [\n    \"default_fonts\",\n    \"glow\",\n    \"wayland\",\n    \"x11\",\n] }\negui = \"0.32.3\"\nimage = { version = \"0.25\", default-features = false, features = [\"png\"] }\n\n[profile.dev]\nopt-level = 1\n\n[profile.dev.package.\"*\"]\nopt-level = 3\n",
+    "total_lines": 21
+  },
+  "summary": "Cargo.toml: lines 2–21 of 21 (UTF-8).",
+  "confidence": "observed",
+  "authority": "original-files",
+  "environment": {
+    "clean_room": false,
+    "engine": "builtin",
+    "engine_version": "0.6.1",
+    "host": "windows-x86_64"
+  },
+  "limitations": [
+    {
+      "code": "text_as_stored",
+      "message": "The file is read as text as it is stored: nothing is run, rendered or formatted, and text a program builds or downloads while it runs isn't here."
+    }
+  ],
+  "coverage": {
+    "status": "complete",
+    "examined": 20,
+    "total": 21
+  },
+  "locations": [
+    {
+      "kind": "path",
+      "value": "C:\\Users\\ZIYAD AL WADDI\\Documents\\Craft Anything\\circuita\\app\\Cargo.toml"
+    }
+  ],
+  "links": []
+}

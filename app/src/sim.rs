@@ -411,7 +411,7 @@ fn build_elements(
                     r: 470.0,
                 });
             }
-            Kind::UnoBoard | Kind::Atmega | Kind::Esp32 => {
+            Kind::UnoBoard | Kind::Atmega | Kind::Esp32 | Kind::NanoBoard => {
                 let (supply, out_pin) = match c.kind {
                     Kind::Esp32 => (3.3, 2),
                     _ => (5.0, 2),
@@ -438,7 +438,16 @@ fn build_elements(
                     r: 330.0,
                 });
             }
-            Kind::Ground => {}
+            // Sensor and imported parts are passive from the solver's point of
+            // view: their pins join nets and carry measured levels, but they do
+            // not inject a source into the DC/AC matrix.
+            Kind::Ground
+            | Kind::Mpu6050
+            | Kind::Ina219
+            | Kind::Dht22
+            | Kind::Lcd1602
+            | Kind::PushButton
+            | Kind::Custom => {}
         }
     }
     out

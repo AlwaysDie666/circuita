@@ -1,0 +1,54 @@
+{
+  "id": "ev_fa27ba50b0aa9e45f92a58ef85c1a5206caadc91c8fdb6deb5d521ceebb89c5e",
+  "subject": {
+    "kind": "text",
+    "sha256": "783a8db8e2a532ef679f040353457e0a7e5b34c5ebde158166dd75e6bc1caccb",
+    "name": "main.rs"
+  },
+  "operation": "core_text_read",
+  "params": {
+    "limit": 30,
+    "offset": 1,
+    "path": "C:\\Users\\ZIYAD AL WADDI\\Documents\\Craft Anything\\circuita\\app\\src\\main.rs"
+  },
+  "result": {
+    "cut_lines": [],
+    "encoding": "utf8",
+    "file_size": 3733,
+    "lines": 30,
+    "more": true,
+    "offset": 1,
+    "path": "C:\\Users\\ZIYAD AL WADDI\\Documents\\Craft Anything\\circuita\\app\\src\\main.rs",
+    "replaced_sequences": 0,
+    "text": "//!\n//! Run normally for the interactive editor, or with `--screenshot <file.png>`\n//! to boot headless-ish (unfocused, at the bottom of the window stack), draw a\n//! few frames, save the window to PNG and quit. The screenshot path is how the\n//! build is checked without anyone touching the mouse.\n\n#![cfg_attr(not(debug_assertions), windows_subsystem = \"windows\")]\n\nmod app;\nmod canvas;\nmod catalog;\nmod footprint;\nmod instruments;\nmod model;\nmod panels;\nmod project_io;\nmod routing;\nmod sim;\nmod symbols;\nmod theme;\nmod ui_kit;\n\nuse std::path::PathBuf;\n\nfn main() -> eframe::Result<()> {\n    let screenshot = parse_screenshot_arg();\n\n    let mut viewport = eframe::egui::ViewportBuilder::default()\n        .with_title(\"Circuita — Schematic Studio\")\n        .with_inner_size([1600.0, 1000.0])\n",
+    "total_lines": 119
+  },
+  "summary": "main.rs: lines 2–31 of 119 (UTF-8).",
+  "confidence": "observed",
+  "authority": "original-files",
+  "environment": {
+    "clean_room": false,
+    "engine": "builtin",
+    "engine_version": "0.6.1",
+    "host": "windows-x86_64"
+  },
+  "limitations": [
+    {
+      "code": "text_as_stored",
+      "message": "The file is read as text as it is stored: nothing is run, rendered or formatted, and text a program builds or downloads while it runs isn't here."
+    }
+  ],
+  "coverage": {
+    "status": "partial",
+    "examined": 30,
+    "total": 119,
+    "next_offset": 31
+  },
+  "locations": [
+    {
+      "kind": "path",
+      "value": "C:\\Users\\ZIYAD AL WADDI\\Documents\\Craft Anything\\circuita\\app\\src\\main.rs"
+    }
+  ],
+  "links": []
+}

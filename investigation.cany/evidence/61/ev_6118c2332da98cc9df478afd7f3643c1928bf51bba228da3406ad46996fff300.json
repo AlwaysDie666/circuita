@@ -1,0 +1,54 @@
+{
+  "id": "ev_6118c2332da98cc9df478afd7f3643c1928bf51bba228da3406ad46996fff300",
+  "subject": {
+    "kind": "text",
+    "sha256": "d0566dbfc19399b4ed689d28d7a6d789e4b148292250b71d7d3e3b98da7ec3df",
+    "name": "catalog.rs"
+  },
+  "operation": "core_text_read",
+  "params": {
+    "limit": 40,
+    "offset": 1,
+    "path": "C:\\Users\\ZIYAD AL WADDI\\Documents\\Craft Anything\\circuita\\app\\src\\catalog.rs"
+  },
+  "result": {
+    "cut_lines": [],
+    "encoding": "utf8",
+    "file_size": 14175,
+    "lines": 40,
+    "more": true,
+    "offset": 1,
+    "path": "C:\\Users\\ZIYAD AL WADDI\\Documents\\Craft Anything\\circuita\\app\\src\\catalog.rs",
+    "replaced_sequences": 0,
+    "text": "//!\n//! Built-in entries are transcribed from the open-source `wokwi/wokwi-elements`\n//! `pinInfo` tables (Apache-2.0). The schematic coordinates below are a linear\n//! re-scale of those tables so the relative pin order is preserved; the\n//! footprint attached to each entry gives the PCB side its real pad geometry.\n//! Imported KiCad / SVG parts live in the same registry, so the sidebar has a\n//! single source of truth.\n\nuse std::sync::{OnceLock, RwLock};\n\nuse crate::footprint::Footprint;\nuse crate::model::{pin, Category, Dir, Kind, PinRole, PinSpec};\n\n#[derive(Clone, Debug)]\npub struct PartDef {\n    pub id: String,\n    pub name: String,\n    pub desc: String,\n    pub category: Category,\n    pub size: (f32, f32),\n    pub pins: Vec<PinSpec>,\n    pub footprint: Footprint,\n    pub source: String,\n    /// Built-in parts keep their `Kind` so the simulator still understands them.\n    /// Imported parts are placed as `Kind::Custom` and keep only this id.\n    pub kind: Option<Kind>,\n    pub value: String,\n}\n\n/// Pin tables below come from `wokwi/wokwi-elements/src/*-element.ts`.\npub const UNO_PINS_WOKWI: &[PinSpec] = &[\n    pin(\"A5\", -100.0, -60.0, Dir::Up, PinRole::Input),\n    pin(\"A4\", -83.0, -60.0, Dir::Up, PinRole::Input),\n    pin(\"AREF\", -66.0, -60.0, Dir::Up, PinRole::Power),\n    pin(\"GND\", -49.0, -60.0, Dir::Up, PinRole::Ground),\n    pin(\"D13\", -32.0, -60.0, Dir::Up, PinRole::Output),\n    pin(\"D12\", -15.0, -60.0, Dir::Up, PinRole::Input),\n    pin(\"D11\", 2.0, -60.0, Dir::Up, PinRole::Output),\n    pin(\"D10\", 19.0, -60.0, Dir::Up, PinRole::Output),\n    pin(\"D9\", 36.0, -60.0, Dir::Up, PinRole::Output),\n",
+    "total_lines": 391
+  },
+  "summary": "catalog.rs: lines 2–41 of 391 (UTF-8).",
+  "confidence": "observed",
+  "authority": "original-files",
+  "environment": {
+    "clean_room": false,
+    "engine": "builtin",
+    "engine_version": "0.6.1",
+    "host": "windows-x86_64"
+  },
+  "limitations": [
+    {
+      "code": "text_as_stored",
+      "message": "The file is read as text as it is stored: nothing is run, rendered or formatted, and text a program builds or downloads while it runs isn't here."
+    }
+  ],
+  "coverage": {
+    "status": "partial",
+    "examined": 40,
+    "total": 391,
+    "next_offset": 41
+  },
+  "locations": [
+    {
+      "kind": "path",
+      "value": "C:\\Users\\ZIYAD AL WADDI\\Documents\\Craft Anything\\circuita\\app\\src\\catalog.rs"
+    }
+  ],
+  "links": []
+}

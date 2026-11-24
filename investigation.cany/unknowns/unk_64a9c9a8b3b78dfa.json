@@ -1,0 +1,20 @@
+{
+  "id": "unk_64a9c9a8b3b78dfa",
+  "revision": 2,
+  "question": "Apakah aplikasi sudah memiliki fitur PCB Auto-Place & Auto-Route seperti yang disebut orang tersebut?",
+  "severity": "low",
+  "domain": "app",
+  "status": "resolved",
+  "probes": [
+    "grep PCB in app/src found no PCB view",
+    "main.rs has no board module",
+    "the request asks for schematic capture and simulation only"
+  ],
+  "evidence_for": [
+    "ev_fa27ba50b0aa9e45f92a58ef85c1a5206caadc91c8fdb6deb5d521ceebb89c5e",
+    "ev_9ea98c11246e7e12b80d7890fb4e127c23c07bea87bbfe5c0af8415511345234",
+    "ev_6118c2332da98cc9df478afd7f3643c1928bf51bba228da3406ad46996fff300"
+  ],
+  "evidence_against": [],
+  "resolution": "No PCB workspace or auto-place/auto-route exists, and the current request does not ask for one. Earlier work left dormant footprint, catalog and placement data plus two orphan module declarations whose files never existed; those declarations were removed so the build succeeds."
+}

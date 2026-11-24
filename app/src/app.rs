@@ -95,6 +95,13 @@ pub struct App {
     pub redo: Vec<Snapshot>,
     pub toast: Option<(String, f64)>,
 
+    pub projects_open: bool,
+    pub projects_pos: Option<Pos2>,
+    pub project_name_edit: String,
+    pub saved_list: Vec<crate::project_io::SavedProject>,
+    pub delete_confirm: Option<String>,
+    pub wants_fit: bool,
+
     pub frames: u64,
     pub screenshot: Option<PathBuf>,
     pub shot_requested: bool,
@@ -109,6 +116,7 @@ impl App {
         let netlist = sim::build_netlist(&project);
         // Start the simulation part-way into the blink so the first frames are lit.
         let start_time = if screenshot.is_some() { 0.30 } else { 0.0 };
+        let project_name = project.name.clone();
         let mut app = App {
             project,
             netlist,
@@ -146,6 +154,12 @@ impl App {
             undo: Vec::new(),
             redo: Vec::new(),
             toast: None,
+            projects_open: false,
+            projects_pos: None,
+            project_name_edit: project_name,
+            saved_list: Vec::new(),
+            delete_confirm: None,
+            wants_fit: false,
             frames: 0,
             screenshot,
             shot_requested: false,
@@ -203,6 +217,76 @@ impl App {
 
     pub fn toast(&mut self, text: impl Into<String>, clock: f64) {
         self.toast = Some((text.into(), clock + 2.6));
+    }
+
+    pub fn refresh_saved(&mut self) {
+        self.saved_list = crate::project_io::list(&crate::project_io::projects_dir());
+    }
+
+    pub fn open_projects(&mut self) {
+        if !self.projects_open {
+            self.projects_open = true;
+            self.project_name_edit = self.project.name.clone();
+            self.delete_confirm = None;
+            self.refresh_saved();
+        } else {
+            self.projects_open = false;
+        }
+    }
+
+    pub fn save_project(&mut self) {
+        self.project.name = self.project_name_edit.trim().to_string();
+        let stem = crate::project_io::sanitize_name(&self.project.name);
+        if stem.is_empty() || stem == "-" {
+            self.toast("Type a project name first", self.clock);
+            return;
+        }
+        let path = crate::project_io::projects_dir().join(format!("{stem}.circuita"));
+        match crate::project_io::save(&self.project, &path) {
+            Ok(()) => {
+                self.refresh_saved();
+                self.toast(format!("Saved \u{201c}{}\u{201d}", self.project.name), self.clock);
+            }
+            Err(e) => self.toast(format!("Save failed: {e}"), self.clock),
+        }
+    }
+
+    pub fn load_project(&mut self, file: &str) {
+        let path = crate::project_io::projects_dir().join(file);
+        match crate::project_io::load(&path) {
+            Ok(p) => {
+                self.project = p;
+                self.project.reroute_all();
+                self.netlist = sim::build_netlist(&self.project);
+                self.solver.reset();
+                self.result = self.solver.solve(&self.project, &self.netlist, self.time);
+                self.instruments.bind_defaults(&self.project, &self.netlist);
+                self.instruments.clear_traces();
+                self.selection = None;
+                self.wire_start = None;
+                self.drag = None;
+                self.undo.clear();
+                self.redo.clear();
+                self.project_name_edit = self.project.name.clone();
+                self.delete_confirm = None;
+                self.wants_fit = true;
+                self.toast(format!("Opened \u{201c}{}\u{201d}", self.project.name), self.clock);
+                self.projects_open = false;
+            }
+            Err(e) => self.toast(format!("Open failed: {e}"), self.clock),
+        }
+    }
+
+    pub fn delete_saved(&mut self, file: &str) {
+        let path = crate::project_io::projects_dir().join(file);
+        match std::fs::remove_file(&path) {
+            Ok(()) => {
+                self.delete_confirm = None;
+                self.refresh_saved();
+                self.toast("Project deleted", self.clock);
+            }
+            Err(e) => self.toast(format!("Delete failed: {e}"), self.clock),
+        }
     }
 
     pub fn netlet_name(&self, net: usize) -> String {
@@ -397,6 +481,22 @@ impl App {
     }
 
     pub fn handle_keys(&mut self, ctx: &Context) {
+        // Save and open work even while a text field has focus.
+        let (mods, s_pressed, o_pressed) = ctx.input(|i| {
+            (
+                i.modifiers,
+                i.key_pressed(egui::Key::S),
+                i.key_pressed(egui::Key::O),
+            )
+        });
+        if mods.ctrl && s_pressed {
+            self.save_project();
+            return;
+        }
+        if mods.ctrl && o_pressed {
+            self.open_projects();
+            return;
+        }
         if ctx.wants_keyboard_input() {
             if ctx.input(|i| i.key_pressed(egui::Key::Escape)) {
                 ctx.memory_mut(|m| m.surrender_focus(egui::Id::NULL));
@@ -544,6 +644,11 @@ impl eframe::App for App {
         panels::inspector(self, ctx);
         canvas::show(self, ctx);
         instruments::show(self, ctx);
+        panels::projects_window(self, ctx);
+        if self.wants_fit {
+            self.wants_fit = false;
+            self.fit_view(self.canvas_rect);
+        }
     }
 }
 

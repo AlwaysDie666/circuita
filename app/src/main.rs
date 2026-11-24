@@ -9,9 +9,12 @@
 
 mod app;
 mod canvas;
+mod catalog;
+mod footprint;
 mod instruments;
 mod model;
 mod panels;
+mod project_io;
 mod routing;
 mod sim;
 mod symbols;

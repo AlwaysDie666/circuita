@@ -1,0 +1,18 @@
+{
+  "id": "unk_b0b45985db1d14e0",
+  "revision": 2,
+  "question": "Bisakah paket JavaScript @wokwi/elements dipakai langsung di aplikasi Rust/egui?",
+  "severity": "low",
+  "domain": "stack",
+  "status": "resolved",
+  "probes": [
+    "catalog.rs transcribes wokwi pin tables as Rust constants",
+    "Cargo.toml has only eframe, egui and image"
+  ],
+  "evidence_for": [
+    "ev_6118c2332da98cc9df478afd7f3643c1928bf51bba228da3406ad46996fff300",
+    "ev_9ea98c11246e7e12b80d7890fb4e127c23c07bea87bbfe5c0af8415511345234"
+  ],
+  "evidence_against": [],
+  "resolution": "The JavaScript Lit package @wokwi/elements cannot be used directly in a Rust egui app. The same open-source pin data is transcribed as static Rust tables in catalog.rs instead, so no JS runtime is needed."
+}
